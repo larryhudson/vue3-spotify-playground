@@ -11,7 +11,7 @@ export async function handler(event) {
     body: new URLSearchParams({
       code: code,
       grant_type: 'authorization_code',
-      redirect_uri: 'http://localhost:8888/.netlify/functions/spotify-oauth',
+      redirect_uri: 'https://vue3-spotify-playground.netlify.app/.netlify/functions/spotify-oauth',
     }),
     headers: {
       Authorization: `Basic ${btoa(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`)}`
