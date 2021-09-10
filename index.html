@@ -9,5 +9,36 @@
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    <script>
+      function getAccessToken() {
+        const tokenCookie = ('; '+document.cookie).split(`; vue3_spotify=`).pop().split(';')[0];
+        console.log({tokenCookie})
+        return JSON.parse(decodeURIComponent(tokenCookie)).access_token
+      }
+
+
+      window.onSpotifyWebPlaybackSDKReady = (response) => {
+        
+        window.spotifyPlayer = new Spotify.Player({
+          name: 'Vue 3 Spotify Player',
+          getOAuthToken: callback => {
+            // Run code to get a fresh access token
+
+            callback(getAccessToken());
+          },
+          volume: 0.5
+        });
+
+        window.spotifyPlayer.connect()
+
+        window.spotifyPlayer.addListener('ready', function(playerStuff) {
+          console.log('ready!')
+          console.log({playerStuff})
+          window.spotifyPlayerDeviceId = playerStuff.device_id;
+        })
+      };
+      </script>
+      
   </body>
 </html>
